@@ -29,3 +29,15 @@ export const fetchForecast = async (city) => {
     throw new Error('Error fetching forecast data.');
   }
 };
+
+// Fetch weather data by coordinates
+export const fetchWeatherByCoordinates = async (latitude, longitude) => {
+  try {
+    const response = await axios.get(
+      `${REACT_APP_API_BASE_URL}weather?lat=${latitude}&lon=${longitude}&appid=${REACT_APP_WEATHER_API_KEY}&units=metric`
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error('Error fetching weather by coordinates');
+  }
+};

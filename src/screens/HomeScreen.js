@@ -3,9 +3,10 @@ import { View, StyleSheet, PermissionsAndroid, Platform } from 'react-native';
 import Geolocation from 'react-native-geolocation-service';
 import SearchBar from '../components/SearchBar';
 import WeatherCard from '../components/WeatherCard';
-import { fetchWeather } from '../utils/api';
+import { fetchWeather,fetchWeatherByCoordinates } from '../utils/api';
 
 const HomeScreen = () => {
+ 
   const [city, setCity] = useState('');
   const [weather, setWeather] = useState(null);
 
@@ -14,7 +15,14 @@ const HomeScreen = () => {
     const requestLocationPermission = async () => {
       if (Platform.OS === 'android') {
         const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Location Permission',
+            message: 'This app needs access to your location to show weather information.',
+            buttonNeutral: 'Ask Me Later',
+            buttonNegative: 'Cancel',
+            buttonPositive: 'OK',
+          }
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           getLocation();
@@ -30,6 +38,7 @@ const HomeScreen = () => {
       Geolocation.getCurrentPosition(
         async (position) => {
           const { latitude, longitude } = position.coords;
+         
           const data = await fetchWeatherByCoordinates(latitude, longitude);
           setWeather(data);
         },
@@ -61,11 +70,15 @@ const HomeScreen = () => {
   );
 };
 
+const COLORS = {
+  background: '#f0f0f0',
+};
+
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: COLORS.background,
     flex: 1,
     padding: 10,
-    backgroundColor: '#f0f0f0',
   },
 });
 
