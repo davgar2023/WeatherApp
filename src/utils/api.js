@@ -1,14 +1,17 @@
 import axios from 'axios';
+import { REACT_APP_WEATHER_API_KEY, REACT_APP_API_BASE_URL } from '@env';
+
+//console.log(REACT_APP_WEATHER_API_KEY);
 
 // Base URL for the OpenWeatherMap API
-const BASE_URL = 'https://api.openweathermap.org/data/2.5/';
+//const BASE_URL = 'https://api.openweathermap.org/data/2.5/';
 
-const API_KEY = 'your_openweathermap_api_key'; // Replace with your API key
+//const API_KEY = 'your_openweathermap_api_key'; // Replace with your API key
 
 export const fetchWeather = async (city) => {
   try {
     const response = await axios.get(
-      `${BASE_URL}weather?q=${city}&appid=${API_KEY}&units=metric`
+      `${REACT_APP_API_BASE_URL}weather?q=${city}&appid=${REACT_APP_WEATHER_API_KEY}&units=metric`
     );
     return response.data;
   } catch (error) {
@@ -19,7 +22,7 @@ export const fetchWeather = async (city) => {
 export const fetchForecast = async (city) => {
   try {
     const response = await axios.get(
-      `${BASE_URL}forecast?q=${city}&appid=${API_KEY}&units=metric`
+      `${REACT_APP_API_BASE_URL}forecast?q=${city}&appid=${REACT_APP_WEATHER_API_KEY}&units=metric`
     );
     return response.data;
   } catch (error) {
